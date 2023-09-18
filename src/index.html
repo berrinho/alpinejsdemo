@@ -14,21 +14,34 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
-        <form>
-            <div>
-                <label class="form-label" for="speciesName">Species name:</label>
-                <input class="form-control" type="text" name="speciesName" id="speciesName" required />
+    <div class="container" x-data="{records: [], 'isLoading': true}">
+        <h1 x-data="{ message: 'Alpine.js powered species lookup using GBIF API' }" x-text="message"></h1>
+        <form x-data="SearchForm()" @submit.prevent="submitForm" class="my-5">
+            <div class="mb-2">
+                <label class="form-label" for="speciesName">Search by vernacular species name:</label>
+                <input class="form-control" type="text" name="speciesName" id="speciesName" required placeholder="Mallard Duck" x-model="formData.name"/>
             </div>
 
-            <button>Submit</button>
+            <button class="btn btn-dark ">Submit</button>
         </form>
-
+        <script>
+            function SearchForm() {
+              return {
+                formData: {
+                  name: "",
+                },
+                submitForm() {
+                  console.log(JSON.stringify(this.formData));
+                  fetch('https://api.gbif.org/v1/species/search?q=' + this.formData.name +  '&qField=VERNACULAR')
+                      .then(response => response.json())
+                        .then(response => { this.records = response.results; isLoading = false; console.log(response.results); });
+                },
+              };
+            }
+        </script>
 
         <div
                 x-cloak
-                x-data="{records: [], 'isLoading': true}"
                 x-init="fetch('https://api.gbif.org/v1/species/search?q=mallard&qField=VERNACULAR')
     .then(response => response.json())
     .then(response => { records = response.results; isLoading = false; console.log(response.results); })"
