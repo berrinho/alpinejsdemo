@@ -9,8 +9,8 @@
 
     <style>
         [x-cloak] {
-  display: none !important;
-}
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -34,17 +34,25 @@
     .then(response => { records = response.results; isLoading = false; console.log(response.results); })"
         >
             <h1 x-show="isLoading">Loading...</h1>
-            <table x-show="!isLoading">
+            <table x-show="!isLoading" class="table">
                 <tr>
                     <th>Kingdom</th>
                     <th>Family</th>
                     <th>Species</th>
+                    <th>Vernacular Names</th>
+                    <th>Authorship</th>
                 </tr>
                 <template x-for="record in records" :key="record.key">
                     <tr>
                         <td x-text="record.kingdom"></td>
                         <td x-text="record.family"></td>
                         <td x-text="record.species"></td>
+                        <td x-data="{vernaculars: record.vernacularNames}">
+                            <template x-for="vernacular in vernaculars">
+                                <div x-text="vernacular.vernacularName" ></div>
+                            </template>
+                        </td>
+                        <td x-text="record.authorship"></td>
                     </tr>
                 </template>
             </table>
