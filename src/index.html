@@ -49,7 +49,7 @@
     .then(response => response.json())
     .then(response => { records = response.results; isLoading = false; console.log(response.results); })"
         >
-            <h1 x-show="isLoading">Loading...</h1>
+            <div x-show="isLoading">Loading...</div>
             <table x-show="!isLoading" class="table table-striped">
                 <tr>
                     <th>Kingdom</th>
