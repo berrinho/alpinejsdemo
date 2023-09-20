@@ -1,4 +1,4 @@
-# Alpine.js form submit triggered api call
+# Alpine.js api call triggerd by form submit
 Example of using Alpine.js to call a public API using a search term entered by the user.
 The response data is displayed dynamically in a table.
 
